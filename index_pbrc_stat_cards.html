@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<title>PBRC Coin</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	
+<style>
+    body {
+        background-color: #fefcf8;
+        color: #2a2a2a;
+        font-family: 'Helvetica Neue', sans-serif;
+    }
+    .minting-box {
+        background: #fff6ec;
+        border-radius: 20px;
+        padding: 2em;
+        margin: 2em auto;
+        max-width: 600px;
+        text-align: center;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
+    }
+    .minting-box h2 {
+        color: #d97c39;
+        font-size: 2em;
+        margin-bottom: 1em;
+    }
+    input[type="number"] {
+        width: 80%;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        font-size: 16px;
+        background-color: #fff;
+    }
+    button {
+        background-color: #f4a261;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        font-size: 16px;
+        border-radius: 10px;
+        margin-top: 15px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    button:hover {
+        background-color: #e76f51;
+    }
+    #responseMessage {
+        margin-top: 20px;
+        display: block;
+        font-weight: bold;
+        color: #d97c39;
+    }
+</style>
+
+
+<style>
+    .minting-card {
+        background-color: #fff;
+        border-radius: 18px;
+        padding: 3em;
+        margin: 3em auto;
+        max-width: 520px;
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.06);
+        text-align: center;
+    }
+    .mint-title {
+        font-size: 2em;
+        color: #d97c39;
+        font-weight: 700;
+        margin-bottom: 0.4em;
+    }
+    .mint-sub {
+        font-size: 1.1em;
+        color: #444;
+        margin-bottom: 1.5em;
+    }
+    .mint-total {
+        font-weight: bold;
+        color: #f4a261;
+    }
+    .mint-label {
+        font-size: 1em;
+        display: block;
+        margin-bottom: 0.5em;
+        color: #333;
+    }
+    .mint-input {
+        width: 100%;
+        padding: 0.75em;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        font-size: 1rem;
+        margin-bottom: 1em;
+        transition: all 0.2s ease-in-out;
+    }
+    .mint-input:focus {
+        outline: none;
+        border-color: #f4a261;
+        box-shadow: 0 0 0 3px rgba(244, 162, 97, 0.2);
+    }
+    .mint-button, .connect-button {
+        background-color: #f4a261;
+        color: #fff;
+        border: none;
+        padding: 0.75em 2em;
+        font-size: 1rem;
+        border-radius: 12px;
+        margin: 0.5em 0;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .mint-button:hover, .connect-button:hover {
+        background-color: #e76f51;
+    }
+    .wallet-status {
+        display: block;
+        margin: 0.5em 0;
+        color: #666;
+    }
+    .mint-response {
+        margin-top: 1.5em;
+        color: #d97c39;
+        font-weight: 500;
+    }
+</style>
+
+
+<style>
+  .stats-section {
+    padding: 4em 0;
+    background: #fff6ec;
+    text-align: center;
+  }
+  .stats-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2em;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .stat-card {
+    flex: 1 1 240px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+    padding: 2em;
+    transition: transform 0.3s ease;
+  }
+  .stat-card:hover {
+    transform: translateY(-6px);
+  }
+  .stat-icon {
+    font-size: 2em;
+    color: #f4a261;
+    margin-bottom: 0.5em;
+  }
+  .stat-value {
+    font-size: 2em;
+    font-weight: 700;
+    color: #333;
+  }
+  .stat-label {
+    margin-top: 0.25em;
+    font-size: 1em;
+    color: #666;
+  }
+</style>
+
+</head>
+<body class="is-preload">
+
+<div id="particles-js"></div>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(to bottom right, #fff6ec, #fefcf8);
+        color: #2a2a2a;
+        font-family: 'Helvetica Neue', sans-serif;
+    }
+    #particles-js {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        top: 0;
+        left: 0;
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script>
+  particlesJS("particles-js", {
+    "particles": {
+      "number": { "value": 40 },
+      "color": { "value": "#f4a261" },
+      "shape": { "type": "circle" },
+      "opacity": { "value": 0.3 },
+      "size": { "value": 3 },
+      "line_linked": {
+        "enable": true,
+        "distance": 120,
+        "color": "#f4a261",
+        "opacity": 0.2,
+        "width": 1
+      },
+      "move": {
+        "enable": true,
+        "speed": 1.6,
+        "direction": "none",
+        "random": false,
+        "straight": false,
+        "out_mode": "out"
+      }
+    },
+    "interactivity": {
+      "events": {
+        "onhover": { "enable": true, "mode": "repulse" },
+        "onclick": { "enable": true, "mode": "push" }
+      },
+      "modes": {
+        "repulse": { "distance": 100 },
+        "push": { "particles_nb": 4 }
+      }
+    },
+    "retina_detect": true
+  });
+</script>
+
+<div id="wrapper" class="divided">
+
+<section id="top" class="wrapper style1 align-left" style="min-height: 100vh; display: flex; align-items: center;">
+    <div class="inner" style="z-index: 1; position: relative;">
+        <h1 style="font-size: 4em; font-weight: 800; color: #d97c39;">PBRC COIN</h1>
+        <p style="font-size: 1.2em; color: #555;">Powered by Sheer Will</p>
+        <ul class="actions">
+            <li><a href="#mint" class="button big wide smooth-scroll-middle" style="background-color: #f4a261; border-radius: 8px;">Mint Now</a></li>
+        </ul>
+    </div>
+</section>
+
+
+
+<section class="stats-section" id="stats">
+  <h2 style="font-size: 2em; margin-bottom: 1em;">Live Stats</h2>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">🪙</div>
+      <div class="stat-value" id="statTotalMinted">0</div>
+      <div class="stat-label">Total Tokens Minted</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">👤</div>
+      <div class="stat-value" id="statUniqueMinters">0</div>
+      <div class="stat-label">Unique Minters</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🔄</div>
+      <div class="stat-value" id="statLiveTracker">0</div>
+      <div class="stat-label">Live Mint Tracker</div>
+    </div>
+  </div>
+</section>
+
+<section id="mint" class="wrapper style1 align-center">
+    <div class="minting-card">
+        <h2 class="mint-title">Mint PBRC Tokens</h2>
+        <p class="mint-sub">Total Coins Minted: <span id="fakeTotalMinted" class="mint-total">1,234,567</span></p>
+        <div class="mint-form">
+            <label for="tokenAmount" class="mint-label">How many tokens to mint?</label>
+            <input type="number" id="tokenAmount" name="tokenAmount" min="1" class="mint-input">
+            <button onclick="mintTokens()" class="mint-button">Mint</button>
+            <div class="mint-wallet">
+                <p class="mint-label">Wallet connection:</p>
+                <span id="walletStatus" class="wallet-status">Checking for a wallet connection...</span><br>
+                <button onclick="checkWallet()" id="walletButton" class="connect-button">Connect wallet</button>
+            </div>
+            <h3><span id="responseMessage" class="mint-response"></span></h3>
+        </div>
+    </div>
+</section>
+
+</div>
+<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	
+<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="./mintABI.js"></script>
+<script>
+    var myWallet; 
+    var myContract; 
+
+    async function checkWallet() {
+        var accountList = await ethereum.request({ method: 'eth_accounts' });
+        myWallet = accountList[0];
+
+        if (!myWallet) {
+            await window.ethereum.request({
+                method: "eth_requestAccounts",
+                params: [{ eth_accounts: {} }]
+            });
+
+            accountList = await ethereum.request({ method: 'eth_accounts' });
+            myWallet = accountList[0];
+        }
+
+        if (!myWallet) {
+            document.getElementById('walletStatus').innerHTML = "Click here to connect a crypto wallet:";
+            document.getElementById('walletButton').hidden = false;
+        } else {
+            document.getElementById('walletStatus').innerHTML = " &#x2713; Your crypto wallet is connected. <br>";
+            document.getElementById('walletStatus').style.color = "#0000FF";
+            document.getElementById("walletButton").hidden = true;
+        }
+
+        contractConnect();
+    };
+
+    async function contractConnect() {
+        var web3;
+        if (window.ethereum) {
+            web3 = new Web3(window.ethereum);
+        }
+        myContract = new web3.eth.Contract(mintABI, mintContractAddress, {chainId: 137});
+    }
+
+    async function mintTokens() {
+        var mintAmount = document.getElementById('tokenAmount').value;
+        if (mintAmount <= 0) {
+            alert('Please enter a valid number greater than zero.');
+            return;
+        }
+        mintWholeNumber = mintAmount * 10**18;
+
+        myContract.methods.mintFunction(mintWholeNumber).send({from: myWallet})
+        .then((result) => {
+            console.log(result)
+            document.getElementById('responseMessage').innerHTML = "Tokens minted.";
+        })
+        .catch((error) => {
+            console.log(error, error.code);
+            document.getElementById('responseMessage').innerHTML = "Error: " + error + ".";
+        });
+    }
+</script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const counter = document.getElementById("fakeTotalMinted");
+    let hasAnimated = false;
+
+    function animateCounter() {
+      const target = 1234567;
+      const duration = 2000;
+      const start = 0;
+      const startTime = performance.now();
+
+      function update(timestamp) {
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+        const value = Math.floor(progress * (target - start) + start);
+        counter.textContent = value.toLocaleString();
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        }
+      }
+
+      requestAnimationFrame(update);
+    }
+
+    function isInViewport(el) {
+      const rect = el.getBoundingClientRect();
+      return rect.top < window.innerHeight && rect.bottom >= 0;
+    }
+
+    function onScroll() {
+      if (!hasAnimated && isInViewport(counter)) {
+        animateCounter();
+        hasAnimated = true;
+        window.removeEventListener("scroll", onScroll);
+      }
+    }
+
+    window.addEventListener("scroll", onScroll);
+    onScroll();
+  });
+</script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const totalMinted = document.getElementById("statTotalMinted");
+    const uniqueMinters = document.getElementById("statUniqueMinters");
+    const liveTracker = document.getElementById("statLiveTracker");
+
+    let mintedVal = 1234567;
+    let mintersVal = 437;
+    let trackerVal = 9203;
+
+    function animateValue(el, start, end, duration) {
+      const range = end - start;
+      const startTime = performance.now();
+      function update(now) {
+        const progress = Math.min((now - startTime) / duration, 1);
+        el.textContent = Math.floor(progress * range + start).toLocaleString();
+        if (progress < 1) requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+    }
+
+    // Animate on scroll into view
+    function isInViewport(el) {
+      const rect = el.getBoundingClientRect();
+      return rect.top < window.innerHeight && rect.bottom >= 0;
+    }
+
+    let hasAnimated = false;
+    function triggerStats() {
+      if (!hasAnimated && isInViewport(totalMinted)) {
+        animateValue(totalMinted, 0, mintedVal, 2000);
+        animateValue(uniqueMinters, 0, mintersVal, 1800);
+        animateValue(liveTracker, 0, trackerVal, 2500);
+        hasAnimated = true;
+      }
+    }
+
+    // Live tracker keeps counting
+    setInterval(() => {
+      trackerVal += Math.floor(Math.random() * 5 + 1);
+      liveTracker.textContent = trackerVal.toLocaleString();
+    }, 6000);
+
+    window.addEventListener("scroll", triggerStats);
+    triggerStats();
+  });
+</script>
+
+</body>
+</html>
