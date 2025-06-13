@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+  <script type="text/javascript" src="./mintABI.js"></script>
+</head>
+<body>
+  <div id="app">
+    <input type="number" id="tokenAmount" placeholder="Enter token amount">
+    <button onclick="mintTokens()">Mint</button>
+    <div id="responseMessage"></div>
+    <div>Total Coins Minted: <span id="statTotalMinted">0</span></div>
+  </div>
+
+<script>
+  var myWallet;
+  var myContract;
+
+  async function checkWallet() {
+    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+    myWallet = accounts[0];
+    contractConnect();
+  }
+
+  async function contractConnect() {
+    const web3 = new Web3(window.ethereum);
+    myContract = new web3.eth.Contract(mintABI, mintContractAddress);
+    updateTotalTokensMinted();
+  }
+
+  async function mintTokens() {
+    const mintAmount = document.getElementById('tokenAmount').value;
+    const web3 = new Web3(window.ethereum);
+    const mintWholeNumber = web3.utils.toWei(mintAmount.toString(), "ether");
+
+    document.getElementById('responseMessage').innerText = "⏳ Minting...";
+
+    try {
+      await myContract.methods.mint(web3.utils.toBN(mintWholeNumber)).send({ from: myWallet });
+      document.getElementById('responseMessage').innerText = "✅ Tokens minted!";
+      updateTotalTokensMinted();
+    } catch (err) {
+      console.error("Mint error:", err);
+      document.getElementById('responseMessage').innerText = "❌ Error: " + err.message;
+    }
+  }
+
+  async function updateTotalTokensMinted() {
+    try {
+      const web3 = new Web3(window.ethereum);
+      const total = await myContract.methods.totalSupply().call();
+      const readable = parseFloat(web3.utils.fromWei(total, "ether")).toLocaleString();
+      document.getElementById("statTotalMinted").innerText = readable;
+    } catch (err) {
+      console.error("Error getting total supply:", err);
+      document.getElementById("statTotalMinted").innerText = "Error";
+    }
+  }
+
+  window.onload = checkWallet;
+</script>
+</body>
+</html>
